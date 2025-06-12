@@ -659,6 +659,205 @@ p {
 }
 
 /* ==========================================================================
+   Next Cleanup Location Section
+   ========================================================================== */
+.next-cleanup {
+  padding: var(--space-2xl) var(--container-padding);
+  background: linear-gradient(135deg, var(--eco-light), var(--ocean-light));
+  position: relative;
+}
+
+.next-cleanup::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--eco-bright), var(--ocean-bright));
+}
+
+.cleanup-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+  margin-top: var(--space-xl);
+}
+
+.cleanup-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  box-shadow: 0 8px 30px var(--shadow-medium);
+  border: 2px solid transparent;
+  transition: all var(--transition-medium);
+}
+
+.cleanup-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--eco-bright);
+  box-shadow: 0 12px 40px var(--shadow-medium);
+}
+
+.cleanup-header {
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+.cleanup-header h3 {
+  color: var(--ocean-deep);
+  font-size: 1.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.cleanup-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  background: var(--eco-light);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  color: var(--eco-deep);
+  font-weight: 500;
+}
+
+.cleanup-date i {
+  color: var(--eco-bright);
+}
+
+.cleanup-meta {
+  margin-bottom: var(--space-lg);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.meta-item i {
+  width: 20px;
+  color: var(--ocean-bright);
+  text-align: center;
+}
+
+.cleanup-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.cleanup-actions .btn {
+  flex: 1;
+  min-width: 140px;
+  justify-content: center;
+}
+
+/* Map Container Styles */
+.cleanup-map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.map-container {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 8px 30px var(--shadow-medium);
+  background: var(--white);
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 400px;
+  border: none;
+  display: block;
+}
+
+.map-overlay {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 15px var(--shadow-soft);
+  border: 1px solid var(--border-light);
+}
+
+.location-pin {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--ocean-deep);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.location-pin i {
+  color: var(--eco-bright);
+  font-size: 1.1rem;
+}
+
+.location-details {
+  background: var(--white);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 15px var(--shadow-soft);
+}
+
+.location-details h4 {
+  color: var(--ocean-deep);
+  margin-bottom: var(--space-sm);
+  font-size: 1.1rem;
+}
+
+.location-details p {
+  margin-bottom: var(--space-xs);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.location-details strong {
+  color: var(--ocean-bright);
+  font-weight: 600;
+}
+
+/* Responsive Design for Next Cleanup Section */
+@media (max-width: 768px) {
+  .cleanup-info {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .cleanup-actions {
+    flex-direction: column;
+  }
+  
+  .cleanup-actions .btn {
+    width: 100%;
+  }
+  
+  .map-container iframe {
+    height: 300px;
+  }
+  
+  .map-overlay {
+    position: static;
+    margin-top: var(--space-sm);
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
    Community Section
    ========================================================================== */
 .community {

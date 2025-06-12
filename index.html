@@ -56,10 +56,10 @@
                 <span class="hamburger"></span>
                 <span class="hamburger"></span>
             </button>
-            
-            <ul class="nav-menu" role="menubar">
+              <ul class="nav-menu" role="menubar">
                 <li role="none"><a href="#home" role="menuitem">Home</a></li>
                 <li role="none"><a href="#features" role="menuitem">Features</a></li>
+                <li role="none"><a href="#next-cleanup" role="menuitem">Next Cleanup</a></li>
                 <li role="none"><a href="#events" role="menuitem">Events</a></li>
                 <li role="none"><a href="#community" role="menuitem">Community</a></li>
                 <li role="none"><a href="#contact" role="menuitem">Contact</a></li>
@@ -170,6 +170,84 @@
                     <div class="events-grid" id="events-grid">
                         <!-- Events will be dynamically loaded here -->
                         <div class="loading" aria-live="polite">Loading awesome cleanup events...</div>
+                    </div>
+                </div>
+            </div>        </section>
+
+        <!-- Next Cleanup Location Section -->
+        <section id="next-cleanup" class="next-cleanup" aria-labelledby="next-cleanup-title">
+            <div class="container">
+                <h2 id="next-cleanup-title" class="section-title">Next Squad Cleanup</h2>
+                <p class="section-subtitle">Join us at Pasir Ris for our upcoming beach cleanup mission!</p>
+                
+                <div class="cleanup-info">
+                    <div class="cleanup-details">
+                        <div class="cleanup-card">
+                            <div class="cleanup-header">
+                                <h3>Pasir Ris Beach Cleanup</h3>
+                                <div class="cleanup-date">
+                                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                                    <span>This Saturday, June 15, 2025</span>
+                                </div>
+                            </div>
+                            <div class="cleanup-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>9:00 AM - 12:00 PM</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                    <span>Pasir Ris Beach, Singapore</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-users" aria-hidden="true"></i>
+                                    <span>45 Squad Members Joining</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-thermometer-half" aria-hidden="true"></i>
+                                    <span>Perfect Weather - 28°C & Sunny</span>
+                                </div>
+                            </div>
+                            <div class="cleanup-actions">
+                                <button class="btn btn-primary" data-action="join-next-cleanup">
+                                    <i class="fas fa-hand-paper" aria-hidden="true"></i>
+                                    Count Me In!
+                                </button>
+                                <button class="btn btn-secondary" data-action="share-cleanup">
+                                    <i class="fas fa-share-alt" aria-hidden="true"></i>
+                                    Share with Squad
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cleanup-map">
+                        <div class="map-container">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.4672836872805!2d103.95357341475397!3d1.3814970619891234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da3d86de18b70b%3A0x6b5b4c5a8b9e1234!2sPasir%20Ris%20Beach!5e0!3m2!1sen!2ssg!4v1718123456789!5m2!1sen!2ssg&markers=color:blue%7Clabel:Next%20Cleanup%7C1.381497,103.955574"
+                                width="100%" 
+                                height="400" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Next Cleanup Location - Pasir Ris Beach"
+                                aria-label="Google Maps showing Pasir Ris Beach cleanup location">
+                            </iframe>
+                            <div class="map-overlay">
+                                <div class="location-pin">
+                                    <i class="fas fa-map-pin" aria-hidden="true"></i>
+                                    <span>Next Cleanup Spot</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="location-details">
+                            <h4>Meeting Point Details</h4>
+                            <p><strong>Coordinates:</strong> 1.381497, 103.955574</p>
+                            <p><strong>Nearest MRT:</strong> Pasir Ris MRT Station (5 min walk)</p>
+                            <p><strong>Parking:</strong> Available at Pasir Ris Park</p>
+                            <p><strong>What to Bring:</strong> Water bottle, sun hat, eco-friendly bags provided!</p>
+                        </div>
                     </div>
                 </div>
             </div>

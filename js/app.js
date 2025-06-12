@@ -62,6 +62,9 @@ class ShoreSquadApp {
     
     // Keyboard navigation
     this.setupKeyboardNavigation();
+    
+    // Next cleanup actions
+    this.setupCleanupActions();
   }
 
   setupNavigation() {
@@ -834,245 +837,153 @@ class ShoreSquadApp {
     this.showSuccessMessage('Join squad feature coming soon! Follow us on social media for updates.');
   }
 
-  // Placeholder functions for future features
-  closeModals() {
-    // Close any open modals
-    console.log('Closing modals...');
-  }
-
-  setupFocusTrap() {
-    // Implement focus trap for modals
-    console.log('Focus trap setup...');
-  }
-
-  navigateFilters(direction) {
-    const buttons = document.querySelectorAll('.filter-btn');
-    const activeIndex = Array.from(buttons).findIndex(btn => btn.classList.contains('active'));
-    const newIndex = Math.max(0, Math.min(buttons.length - 1, activeIndex + direction));
+  // ==========================================================================
+  // Next Cleanup Actions
+  // ==========================================================================
+  setupCleanupActions() {
+    // Next cleanup buttons
+    const joinCleanupButton = document.querySelector('[data-action="join-next-cleanup"]');
+    const shareCleanupButton = document.querySelector('[data-action="share-cleanup"]');
     
-    buttons[newIndex].focus();
-    buttons[newIndex].click();
-  }
-
-  registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
-      // Register service worker for caching
-      // navigator.serviceWorker.register('/sw.js');
-      console.log('Service worker support detected');
+    if (joinCleanupButton) {
+      joinCleanupButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.handleJoinNextCleanup();
+      });
+    }
+    
+    if (shareCleanupButton) {
+      shareCleanupButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.handleShareCleanup();
+      });
     }
   }
 
-  setupScrollAnimations() {
-    // Add CSS classes for scroll-triggered animations
+  handleJoinNextCleanup() {
+    const button = document.querySelector('[data-action="join-next-cleanup"]');
+    
+    // Show success feedback
+    this.showSuccessMessage('Amazing! You\'re joining the Pasir Ris cleanup! Check your email for details.');
+    
+    // Update button state
+    if (button) {
+      button.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i> You\'re In!';
+      button.classList.remove('btn-primary');
+      button.classList.add('btn-success');
+      button.disabled = true;
+      
+      // Update participant count
+      const participantCount = document.querySelector('.meta-item:nth-child(3) span');
+      if (participantCount) {
+        const currentCount = parseInt(participantCount.textContent.match(/\d+/)[0]);
+        participantCount.textContent = `${currentCount + 1} Squad Members Joining`;
+      }
+    }
+    
+    // Announce to screen readers
+    this.announceToScreenReader('Successfully joined the Pasir Ris beach cleanup!');
+  }
+
+  handleShareCleanup() {
+    const cleanupData = {
+      title: 'Pasir Ris Beach Cleanup',
+      date: 'June 15, 2025',
+      time: '9:00 AM - 12:00 PM',
+      location: 'Pasir Ris Beach, Singapore',
+      coordinates: '1.381497, 103.955574'
+    };
+    
+    // Try native Web Share API first
+    if (navigator.share) {
+      navigator.share({
+        title: `Join me at ${cleanupData.title}!`,
+        text: `Let's clean up ${cleanupData.location} together on ${cleanupData.date} at ${cleanupData.time}. Join the ShoreSquad!`,
+        url: window.location.href
+      }).then(() => {
+        this.showSuccessMessage('Cleanup shared successfully!');
+      }).catch(() => {
+        this.fallbackShare(cleanupData);
+      });
+    } else {
+      this.fallbackShare(cleanupData);
+    }
+  }
+
+  fallbackShare(cleanupData) {
+    // Fallback sharing options
+    const shareText = `Join me at ${cleanupData.title} on ${cleanupData.date}! Let's clean up ${cleanupData.location} together. 🌊♻️ #ShoreSquad ${window.location.href}`;
+    
+    // Copy to clipboard
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareText).then(() => {
+        this.showSuccessMessage('Cleanup details copied to clipboard! Share with your squad!');
+      }).catch(() => {
+        this.showTextShareModal(shareText);
+      });
+    } else {
+      this.showTextShareModal(shareText);
+    }
+  }
+
+  showTextShareModal(text) {
+    // Create a simple modal for sharing text
+    const modal = document.createElement('div');
+    modal.className = 'share-modal';
+    modal.innerHTML = `
+      <div class="share-modal-content">
+        <h3>Share Cleanup Details</h3>
+        <textarea readonly>${text}</textarea>
+        <div class="share-modal-actions">
+          <button class="btn btn-primary" onclick="this.closest('.share-modal').remove()">Close</button>
+        </div>
+      </div>
+    `;
+    
+    // Add modal styles
     const style = document.createElement('style');
     style.textContent = `
-      .animate-in {
-        animation: slideInUp 0.6s ease-out forwards;
-      }
-      
-      @keyframes slideInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-      }
-      
-      .notification {
+      .share-modal {
         position: fixed;
-        top: 20px;
-        right: 20px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        z-index: 1000;
-        animation: slideInRight 0.3s ease-out;
-      }
-      
-      .notification-success {
-        border-left: 4px solid var(--eco-bright);
-      }
-      
-      .notification-error {
-        border-left: 4px solid #ef4444;
-      }
-      
-      .notification-content {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 15px 20px;
+        justify-content: center;
+        z-index: 2000;
       }
-      
-      .notification-close {
-        background: none;
-        border: none;
-        color: #999;
-        cursor: pointer;
-        margin-left: auto;
-      }
-      
-      @keyframes slideInRight {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-      
-      .event-card {
+      .share-modal-content {
         background: white;
+        padding: 2rem;
         border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        transition: transform 0.2s ease;
+        max-width: 500px;
+        width: 90%;
       }
-      
-      .event-card:hover {
-        transform: translateY(-2px);
-      }
-      
-      .event-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-      }
-      
-      .event-date {
-        text-align: center;
-        background: var(--ocean-light);
-        padding: 10px;
+      .share-modal textarea {
+        width: 100%;
+        height: 100px;
+        margin: 1rem 0;
+        padding: 0.5rem;
+        border: 2px solid var(--border-light);
         border-radius: 8px;
-        min-width: 60px;
+        resize: none;
       }
-      
-      .event-date .month {
-        display: block;
-        font-size: 0.8rem;
-        color: var(--ocean-deep);
-        text-transform: uppercase;
-      }
-      
-      .event-date .day {
-        display: block;
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--ocean-bright);
-      }
-      
-      .event-weather i {
-        font-size: 1.5rem;
-        color: var(--sand-warm);
-      }
-      
-      .event-content h3 {
-        margin-bottom: 10px;
-        color: var(--ocean-deep);
-      }
-      
-      .event-details {
-        margin-bottom: 15px;
-      }
-      
-      .event-detail {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 5px;
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-      }
-      
-      .event-detail i {
-        width: 16px;
-        color: var(--ocean-bright);
-      }
-      
-      .btn-small {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-      }
-      
-      .btn-success {
-        background: var(--eco-bright) !important;
+      .share-modal-actions {
+        text-align: center;
       }
     `;
     document.head.appendChild(style);
-  }
-
-  setupButtonEffects() {
-    // Add ripple effect to buttons
-    document.addEventListener('click', (e) => {
-      if (e.target.matches('.btn')) {
-        this.createRippleEffect(e);
-      }
-    });
-  }
-
-  createRippleEffect(e) {
-    const button = e.target;
-    const rect = button.getBoundingClientRect();
-    const ripple = document.createElement('span');
-    const size = Math.max(rect.width, rect.height);
-    const x = e.clientX - rect.left - size / 2;
-    const y = e.clientY - rect.top - size / 2;
     
-    ripple.style.cssText = `
-      position: absolute;
-      width: ${size}px;
-      height: ${size}px;
-      left: ${x}px;
-      top: ${y}px;
-      background: rgba(255,255,255,0.3);
-      border-radius: 50%;
-      transform: scale(0);
-      animation: ripple 0.6s ease-out;
-      pointer-events: none;
-    `;
+    document.body.appendChild(modal);
     
-    // Add ripple animation CSS if not exists
-    if (!document.querySelector('#ripple-styles')) {
-      const style = document.createElement('style');
-      style.id = 'ripple-styles';
-      style.textContent = `
-        @keyframes ripple {
-          to {
-            transform: scale(4);
-            opacity: 0;
-          }
-        }
-        .btn {
-          position: relative;
-          overflow: hidden;
-        }
-      `;
-      document.head.appendChild(style);
-    }
+    // Select text for easy copying
+    const textarea = modal.querySelector('textarea');
+    textarea.select();
     
-    button.appendChild(ripple);
-    
-    setTimeout(() => {
-      ripple.remove();
-    }, 600);
+    this.announceToScreenReader('Share modal opened. Cleanup details are selected for copying.');
   }
 }
 
